@@ -19,6 +19,10 @@ class Employee(models.Model):
     company = models.ForeignKey('Company', blank=True, null=True, on_delete=models.SET_NULL)
     salary = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     grade = models.ForeignKey('Grade', blank=True, null=True, on_delete=models.SET_NULL)
+    unit = models.ForeignKey('Unit', blank=True, null=True, on_delete=models.SET_NULL,
+                             related_name='unit')
+    department = models.ForeignKey('Department', blank=True, null=True, on_delete=models.SET_NULL,
+                                   related_name='department')
     passport_number = models.CharField(max_length=255, blank=True, null=True)
     date_joined = models.DateField(null=True, blank=True)
     nationality = models.ForeignKey('Country', blank=True, null=True, on_delete=models.SET_NULL,
@@ -46,12 +50,12 @@ class Company(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     size = models.CharField(max_length=10, blank=True, null=True, choices=SIZE)
     location = models.ForeignKey('Country', blank=True, null=True, on_delete=models.SET_NULL)
-    status = models.ForeignKey('Status', blank=True, null=True, on_delete=models.SET_NULL)
+    status = models.ForeignKey('Status', blank=True, null=True, on_delete=models.SET_NULL, default=1)
     date_created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     date_updated = models.DateTimeField(auto_now=True, blank=True)
 
     def __str__(self):
-        return self.name + ' (' + self.company_number + ')'
+        return self.name + ' (' + str(self.company_number) + ')'
 
     class Meta:
         verbose_name_plural = "Companies"
@@ -104,7 +108,7 @@ class Unit(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     code = models.CharField(max_length=255, blank=True, null=True)
     company = models.ForeignKey(Company, blank=True, null=True, on_delete=models.SET_NULL)
-    head = models.ForeignKey(Employee, blank=True, null=True, on_delete=models.SET_NULL)
+    head = models.ForeignKey(Employee, blank=True, null=True, on_delete=models.SET_NULL, related_name="unit_head")
     status = models.ForeignKey(Status, blank=True, null=True, on_delete=models.SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     date_updated = models.DateTimeField(auto_now=True, blank=True)
@@ -121,7 +125,7 @@ class Department(models.Model):
     code = models.CharField(max_length=255, blank=True, null=True)
     unit = models.ForeignKey(Unit, blank=True, null=True, on_delete=models.SET_NULL)
     company = models.ForeignKey(Company, blank=True, null=True, on_delete=models.SET_NULL)
-    head = models.ForeignKey(Employee, blank=True, null=True, on_delete=models.SET_NULL)
+    head = models.ForeignKey(Employee, blank=True, null=True, on_delete=models.SET_NULL, related_name="department_head")
     status = models.ForeignKey(Status, blank=True, null=True, on_delete=models.SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     date_updated = models.DateTimeField(auto_now=True, blank=True)
@@ -228,3 +232,13 @@ class PreviousWorkExperience(models.Model):
 
     class Meta:
         verbose_name_plural = "Previous Work Experience"
+
+
+class CompanyNumber(models.Model):
+    last_number = models.IntegerField()
+
+    def __str__(self):
+        return 'Last Company Number: ' + str(self.last_number)
+
+    class Meta:
+        verbose_name_plural = "Company Number"
