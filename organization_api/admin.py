@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
-    Employee, Country, Status, Grade, Unit, Department, Company,
-    Address, NOKAddress, NOK, Education, PreviousWorkExperience, CompanyNumber
+    Employee, Country, Status, Grade, Unit, Department, Company, Address, NOKAddress, NOK, Education,
+    PreviousWorkExperience, CompanyNumber, Supervisor, ReportingLine
 )
 
 admin.site.register(Employee)
@@ -16,3 +16,5 @@ admin.site.register(NOKAddress)
 admin.site.register(Education)
 admin.site.register(PreviousWorkExperience)
 admin.site.register(CompanyNumber)
+admin.site.register(Supervisor)
+admin.site.register(ReportingLine)

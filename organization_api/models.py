@@ -1,4 +1,5 @@
 from django.db import models
+from company_users.models import CompanyUser
 
 
 class Employee(models.Model):
@@ -8,6 +9,7 @@ class Employee(models.Model):
         ("Other", "Other"),
     )
     employee_id = models.CharField(max_length=255, blank=True, null=True)
+    company_user = models.OneToOneField(CompanyUser, on_delete=models.CASCADE, blank=True, null=True)
     firstname = models.CharField(max_length=255, blank=True, null=True)
     lastname = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=255, blank=True, null=True)
@@ -245,3 +247,13 @@ class CompanyNumber(models.Model):
 
     class Meta:
         verbose_name_plural = "Company Number"
+
+
+class Supervisor(models.Model):
+    supervisor = models.ForeignKey(Employee, blank=True, null=True, on_delete=models.SET_NULL)
+
+
+class ReportingLine(models.Model):
+    employee = models.ForeignKey(Employee, blank=True, null=True, on_delete=models.CASCADE)
+    supervisor = models.ForeignKey(Supervisor, blank=True, null=True, on_delete=models.CASCADE)
+    rank = models.PositiveIntegerField(null=True, blank=True)
