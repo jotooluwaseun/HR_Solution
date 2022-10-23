@@ -1,7 +1,9 @@
 from django.urls import path
-from organization.views import (
+from organization_api.views import (
     country_list, country_details, retrieve_company, create_company, retrieve_update_company,
 )
+
+app_name = 'organization_api'
 
 urlpatterns = [
     path('country-list/', country_list, name='country-list'),

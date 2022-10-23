@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from organization.models import Country, Company, CompanyNumber
-from organization.serializers import CountrySerializer, CompanySerializer, CreateCompanySerializer
+from organization_api.models import Country, Company, CompanyNumber
+from organization_api.serializers import CountrySerializer, CompanySerializer, CreateCompanySerializer
 
 
 # -----------------------------------------------------

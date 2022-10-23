@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from organization.models import Country, Company
+from organization_api.models import Country, Company, Status
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -8,7 +8,16 @@ class CountrySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class StatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Status
+        fields = '__all__'
+
+
 class CompanySerializer(serializers.ModelSerializer):
+    location = CountrySerializer(read_only=True)
+    status = StatusSerializer(read_only=True)
+
     class Meta:
         model = Company
         fields = '__all__'

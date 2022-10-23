@@ -49,8 +49,9 @@ class Company(models.Model):
     company_number = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     size = models.CharField(max_length=10, blank=True, null=True, choices=SIZE)
-    location = models.ForeignKey('Country', blank=True, null=True, on_delete=models.SET_NULL)
-    status = models.ForeignKey('Status', blank=True, null=True, on_delete=models.SET_NULL, default=1)
+    location = models.ForeignKey('Country', blank=True, null=True, on_delete=models.SET_NULL, related_name='location')
+    status = models.ForeignKey('Status', blank=True, null=True, on_delete=models.SET_NULL, default=1,
+                               related_name='status')
     date_created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     date_updated = models.DateTimeField(auto_now=True, blank=True)
 
@@ -77,6 +78,7 @@ class Status(models.Model):
 
     class Meta:
         verbose_name_plural = "Status"
+        ordering = ["id"]
 
 
 class Country(models.Model):
@@ -88,6 +90,7 @@ class Country(models.Model):
 
     class Meta:
         verbose_name_plural = "Countries"
+        ordering = ['name']
 
 
 class Grade(models.Model):
