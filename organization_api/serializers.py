@@ -8,6 +8,12 @@ class CountrySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CountryNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ('id', 'name',)
+
+
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Status
@@ -24,6 +30,14 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class CreateCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('name', 'size', 'location')
+
+
+class GetAllCompanySerializer(serializers.ModelSerializer):
+    location = CountryNameSerializer(read_only=True)
+
     class Meta:
         model = Company
         fields = ('name', 'size', 'location')

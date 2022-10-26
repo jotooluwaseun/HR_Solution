@@ -9,6 +9,7 @@ class Employee(models.Model):
         ("Other", "Other"),
     )
     employee_id = models.CharField(max_length=255, blank=True, null=True)
+    manual_employee_id = models.CharField(max_length=255, blank=True, null=True)
     company_user = models.OneToOneField(CompanyUser, on_delete=models.CASCADE, blank=True, null=True)
     firstname = models.CharField(max_length=255, blank=True, null=True)
     lastname = models.CharField(max_length=255, blank=True, null=True)
@@ -58,7 +59,7 @@ class Company(models.Model):
     date_updated = models.DateTimeField(auto_now=True, blank=True)
 
     def __str__(self):
-        return self.name + ' (' + str(self.company_number) + ')'
+        return self.name  # + ' (' + str(self.company_number) + ')'
 
     class Meta:
         verbose_name_plural = "Companies"
