@@ -1,5 +1,7 @@
 from django.db import models
-from company_users.models import CompanyUser
+from django.conf import settings
+
+User = settings.AUTH_USER_MODEL
 
 
 class Employee(models.Model):
@@ -10,7 +12,7 @@ class Employee(models.Model):
     )
     employee_id = models.CharField(max_length=255, blank=True, null=True)
     manual_employee_id = models.CharField(max_length=255, blank=True, null=True)
-    company_user = models.OneToOneField(CompanyUser, on_delete=models.CASCADE, blank=True, null=True)
+    company_user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     firstname = models.CharField(max_length=255, blank=True, null=True)
     lastname = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=255, blank=True, null=True)
@@ -49,8 +51,10 @@ class Company(models.Model):
         ("Medium", "Medium"),
         ("Large", "Large"),
     )
+    company_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="company_user", blank=True, null=True)
     company_number = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(max_length=255, blank=True, null=True)
     size = models.CharField(max_length=10, blank=True, null=True, choices=SIZE)
     location = models.ForeignKey('Country', blank=True, null=True, on_delete=models.SET_NULL, related_name='location')
     status = models.ForeignKey('Status', blank=True, null=True, on_delete=models.SET_NULL, default=1,

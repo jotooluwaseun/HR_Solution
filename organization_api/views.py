@@ -11,11 +11,16 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.utils.decorators import method_decorator
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 # Country views
 class CountryList(APIView):
     def get(self, request):
         country = Country.objects.all()
+        print(User)
         serializer = CountrySerializer(country, many=True)
         return Response(serializer.data)
 
