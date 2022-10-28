@@ -1,5 +1,5 @@
 from django.db.models.signals import post_save, post_delete
-from organization_api.models import Company
+from organization_api.models import Company, CompanyNumber
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -13,7 +13,18 @@ def createCompany(sender, instance, created, **kwargs):
             company_user=user,
             name=user.company_name,
             email=user.company_email,
+            company_number='J' + str(companyNumberGenerator()),
         )
+
+
+# This function automatically generates Company Numbers
+def companyNumberGenerator():
+    last_number = CompanyNumber.objects.all()
+    for number in last_number:
+        company_number = number.last_number
+        number.last_number = number.last_number + 1
+        number.save()
+        return company_number
 
 
 def updateCompany(sender, instance, created, **kwargs):

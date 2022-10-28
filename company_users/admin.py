@@ -17,8 +17,8 @@ class UserAdminConfig(UserAdmin):
         ('Personal', {'fields': ('about',)}),
     )
     formfield_overrides = {
-        CompanyUser.about: {'widget': Textarea(attrs={'rows': 10, 'cols': 40})},
-    }
+         CompanyUser.about: {'widget': Textarea(attrs={'rows': 10, 'cols': 40})},
+     }
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
